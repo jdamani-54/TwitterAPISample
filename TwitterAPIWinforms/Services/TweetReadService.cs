@@ -23,12 +23,88 @@ namespace TwitterAPIWinforms.Services
             var client = twitterAuthenticationService.GetTwitterClient();
             return (await client.Timelines.GetHomeTimelineAsync()).ToList<ITweet>();
         }
-        public int GetTotalTweets(List<ITweet> timeline)
+        public async Task<List<TweetResults>> GetTweetResultsAsync()
+        {
+            var timeline = await GetTimeLineAsync();
+
+            List<TweetResults> result = new List<TweetResults>();
+            result.Add(new TweetResults()
+            {
+                SlNo = 1,
+                ResultDescription = "Total tweets received",
+                Result = GetTotalTweets(timeline).ToString()
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 2,
+                ResultDescription = "Average tweets per hour",
+                Result = GetAverageTweetsPerHour(timeline).ToString()
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 3,
+                ResultDescription = "Average tweets per minute",
+                Result = GetAverageTweetsPerMinute(timeline).ToString()
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 4,
+                ResultDescription = "Average tweets per second",
+                Result = GetAverageTweetsPerSeconds(timeline).ToString()
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 5,
+                ResultDescription = "Percent of tweets that contains emojis",
+                Result = GetPercentageOfTweetsWithEmojis(timeline).ToString()
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 6,
+                ResultDescription = "Top used emoji",
+                Result = GetTopUsedEmojis(timeline).Emoji
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 7,
+                ResultDescription = "Top used hashtag",
+                Result = "#" + GetTopUsedHashTag(timeline).HashTag
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 8,
+                ResultDescription = "Percentage of tweets contains a URL",
+                Result = GetPercentageOfTweetContainsURL(timeline).ToString() + "%"
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 9,
+                ResultDescription = "Percentage of tweets contains image",
+                Result = GetPercentageOfTweetContainsPicURL(timeline).ToString() + "%"
+            });
+
+            result.Add(new TweetResults()
+            {
+                SlNo = 10,
+                ResultDescription = "Top used domain",
+                Result = GetTopDomainsInUrl(timeline).Domain
+            });
+
+            return result;
+        }
+        private int GetTotalTweets(List<ITweet> timeline)
         {
             return timeline.Count;
         }
-
-        public Emojis GetTopUsedEmojis(List<ITweet> timeline)
+        private Emojis GetTopUsedEmojis(List<ITweet> timeline)
         {
             var tweetsWithImojis = timeline.Where(x => Regex.Match(x.FullText, regex).Length > 0);
             List<string> emojis = new List<string>();
@@ -39,28 +115,27 @@ namespace TwitterAPIWinforms.Services
             var emojisGrouped = emojis.GroupBy(x => x).Select(s => new Emojis() { Emoji = s.Key, Count = s.Count() });
             return emojisGrouped.OrderByDescending(x => x.Count).FirstOrDefault();
         }
-        public decimal GetPercentageOfTweetsWithEmojis(List<ITweet> timeline)
+        private decimal GetPercentageOfTweetsWithEmojis(List<ITweet> timeline)
         {
             var tweetsWithImojis = timeline.Where(x => Regex.Match(x.FullText, regex).Length > 0);
             return System.Math.Round(100 * (Convert.ToDecimal(tweetsWithImojis.Count()) / Convert.ToDecimal(timeline.Count)), 2);
         }
-        public HashTags GetTopUsedHashTag(List<ITweet> timeline)
+        private HashTags GetTopUsedHashTag(List<ITweet> timeline)
         {
             var hashtags = timeline.SelectMany(x => x.Hashtags).GroupBy(g => g.Text).Select(c => new HashTags() { HashTag = c.Key, Count = c.Count() });
             return hashtags.OrderByDescending(x => x.Count).FirstOrDefault();
         }
-        public decimal GetPercentageOfTweetContainsURL(List<ITweet> timeline)
+        private decimal GetPercentageOfTweetContainsURL(List<ITweet> timeline)
         {
             var urlCounts = timeline.Where(x => x.Urls.Count > 0).ToList();
             return System.Math.Round(100 * (Convert.ToDecimal(urlCounts.Count) / Convert.ToDecimal(timeline.Count)), 2);
         }
-        public decimal GetPercentageOfTweetContainsPicURL(List<ITweet> timeline)
+        private decimal GetPercentageOfTweetContainsPicURL(List<ITweet> timeline)
         {
             var tweetsWithImages = timeline.SelectMany(x => x.Media).Where(x => x.MediaType == "photo").GroupBy(x => x.Id).ToList();
             return System.Math.Round(100 * (Convert.ToDecimal(tweetsWithImages.Count) / Convert.ToDecimal(timeline.Count)), 2);
         }
-
-        public Domains GetTopDomainsInUrl(List<ITweet> timeline)
+        private Domains GetTopDomainsInUrl(List<ITweet> timeline)
         {
             var domainsInTweets = timeline.SelectMany(x => x.Urls)
                 .GroupBy(s => new Uri(s.ExpandedURL).Host)
@@ -68,15 +143,15 @@ namespace TwitterAPIWinforms.Services
 
             return domainsInTweets.OrderByDescending(x => x.Count).FirstOrDefault();
         }
-        public int GetAverageTweetsPerHour(List<ITweet> timeline)
+        private int GetAverageTweetsPerHour(List<ITweet> timeline)
         {
             return timeline.Where(x => x.CreatedAt.DateTime >= DateTime.Now.AddHours(-1)).Count();
         }
-        public int GetAverageTweetsPerMinute(List<ITweet> timeline)
+        private int GetAverageTweetsPerMinute(List<ITweet> timeline)
         {
             return timeline.Where(x => x.CreatedAt.DateTime >= DateTime.Now.AddMinutes(-1)).Count();
         }
-        public int GetAverageTweetsPerSeconds(List<ITweet> timeline)
+        private int GetAverageTweetsPerSeconds(List<ITweet> timeline)
         {
             return timeline.Where(x => x.CreatedAt.DateTime >= DateTime.Now.AddSeconds(-1)).Count();
         }

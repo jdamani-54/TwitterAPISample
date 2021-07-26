@@ -141,6 +141,7 @@
     <Compile Include="Models\Domains.cs" />
     <Compile Include="Models\Emojis.cs" />
     <Compile Include="Models\HashTags.cs" />
+    <Compile Include="Models\TweetResults.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TweetReadService.cs" />

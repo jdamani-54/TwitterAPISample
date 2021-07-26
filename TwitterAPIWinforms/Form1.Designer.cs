@@ -36,10 +36,14 @@ namespace TwitterAPIWinforms
             this.lblName = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.SlNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ResultDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Result = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -100,22 +104,57 @@ namespace TwitterAPIWinforms
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.textBox1);
+            this.panel2.Controls.Add(this.dataGridView1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 100);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(800, 350);
             this.panel2.TabIndex = 2;
             // 
-            // textBox1
+            // dataGridView1
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(800, 350);
-            this.textBox1.TabIndex = 1;
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SlNo,
+            this.ResultDescription,
+            this.Result});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(800, 350);
+            this.dataGridView1.TabIndex = 0;
+            // 
+            // SlNo
+            // 
+            this.SlNo.DataPropertyName = "SlNo";
+            this.SlNo.HeaderText = "#";
+            this.SlNo.MinimumWidth = 6;
+            this.SlNo.Name = "SlNo";
+            this.SlNo.ReadOnly = true;
+            this.SlNo.Width = 50;
+            // 
+            // ResultDescription
+            // 
+            this.ResultDescription.DataPropertyName = "ResultDescription";
+            this.ResultDescription.HeaderText = "Result description";
+            this.ResultDescription.MinimumWidth = 6;
+            this.ResultDescription.Name = "ResultDescription";
+            this.ResultDescription.ReadOnly = true;
+            this.ResultDescription.Width = 500;
+            // 
+            // Result
+            // 
+            this.Result.DataPropertyName = "Result";
+            this.Result.HeaderText = "Result";
+            this.Result.MinimumWidth = 6;
+            this.Result.Name = "Result";
+            this.Result.ReadOnly = true;
+            this.Result.Width = 140;
             // 
             // Form1
             // 
@@ -132,7 +171,7 @@ namespace TwitterAPIWinforms
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -142,10 +181,13 @@ namespace TwitterAPIWinforms
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label lblScreenName;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SlNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ResultDescription;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Result;
     }
 }
 
